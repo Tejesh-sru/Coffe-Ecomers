@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign-Up - Coffee Shop</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="stylesheet" href="hci.css">
+    
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1>Fresher's cafe</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="hci.html">Home</a></li>
+                    <li><a href="hci.html#about">About</a></li>
+                    <li><a href="hci.html#products">Products</a></li>
+                    <li><a href="#">Review</a></li>
+                    <li><a href="hci.html#contact">Contact</a></li>
+                    <li><a href="login.html">Sign-Up</a></li>
+                    <li><a href="cart.html">Cart</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section id="login">
+        <h2>Sign-Up</h2>
+        <form id="signup-form">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+
+            <label for="password">Set Password:</label>
+            <input type="password" id="password" name="password" required>
+
+            <button type="button" onclick="createAccount()">Create Account</button>
+        </form>
+        <div id="confirmation-message" class="confirmation-message">
+            Account created successfully!
+        </div>
+    </section>
+
+    <script>
+        // JavaScript function to handle the "Create account" button
+        function createAccount() {
+            // Get the input values
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            // Simple validation
+            if (username && password) {
+                // Show a confirmation message
+                document.getElementById('confirmation-message').style.display = 'block';
+
+                // Clear the form fields after a delay (optional)
+                setTimeout(() => {
+                    document.getElementById('signup-form').reset();
+                    document.getElementById('confirmation-message').style.display = 'none';
+                }, 2000);
+            } else {
+                alert('Please fill out all fields.');
+            }
+        }
+    </script>
+</body>
+</html>

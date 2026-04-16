@@ -1,4 +1,11 @@
 {
+  "name": "coffe-ecomers",
+  "private": true,
+  "scripts": {
+    "dev:frontend": "npm --prefix Fresher-s-Cafe-main run dev",
+    "dev:backend": "npm --prefix backend run dev",
+    "build:frontend": "npm --prefix Fresher-s-Cafe-main run build"
+  },
   "devDependencies": {
     "tailwindcss": "^3.4.19"
   }

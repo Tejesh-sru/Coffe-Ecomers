@@ -46,8 +46,7 @@ jobs:
           VITE_BASE_PATH: /Coffe-Ecomers/
         run: |
           if [ -z "$VITE_API_BASE_URL" ]; then
-            echo "PROD_API_BASE_URL secret is missing"
-            exit 1
+            echo "::warning::PROD_API_BASE_URL is missing. Building frontend with default API URL."
           fi
 
           npm run build

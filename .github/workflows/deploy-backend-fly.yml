@@ -1,4 +1,4 @@
-name: Deploy Backend (Fly.io)
+name: Backend Build Workflow
 
 on:
   push:
@@ -67,3 +67,13 @@ jobs:
         run: |
           echo "url=https://${FLY_APP_NAME}.fly.dev" >> "$GITHUB_OUTPUT"
           echo "Backend URL: https://${FLY_APP_NAME}.fly.dev"
+
+      - name: Print backend link
+        run: |
+          echo "## Backend Deployment" >> "$GITHUB_STEP_SUMMARY"
+          if [ "${{ steps.check_secrets.outputs.has_secrets }}" = "true" ]; then
+            echo "- Backend URL: https://${{ secrets.FLY_APP_NAME }}.fly.dev" >> "$GITHUB_STEP_SUMMARY"
+            echo "- Health URL: https://${{ secrets.FLY_APP_NAME }}.fly.dev/api/health" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "- Backend URL: not available (set FLY_API_TOKEN and FLY_APP_NAME secrets)" >> "$GITHUB_STEP_SUMMARY"
+          fi

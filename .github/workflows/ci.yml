@@ -1,4 +1,4 @@
-name: CI
+name: Frontend and Backend Build Workflow
 
 on:
   push:

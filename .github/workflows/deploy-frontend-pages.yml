@@ -1,4 +1,4 @@
-name: Deploy Frontend (GitHub Pages)
+name: Frontend Build Workflow
 
 on:
   push:
@@ -69,6 +69,11 @@ jobs:
 
       - name: Print frontend link
         run: |
-          echo "Frontend URL: ${{ steps.deployment.outputs.page_url }}"
+          FRONTEND_URL="${{ steps.deployment.outputs.page_url }}"
+          if [ -z "$FRONTEND_URL" ]; then
+            FRONTEND_URL="https://tejesh-sru.github.io/Coffe-Ecomers/"
+          fi
+
+          echo "Frontend URL: $FRONTEND_URL"
           echo "## Frontend Deployment" >> "$GITHUB_STEP_SUMMARY"
-          echo "- Frontend URL: ${{ steps.deployment.outputs.page_url }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Frontend URL: $FRONTEND_URL" >> "$GITHUB_STEP_SUMMARY"

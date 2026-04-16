@@ -42,6 +42,25 @@ For production, provide deployed frontend URLs as comma-separated values:
 FRONTEND_URLS=https://tejesh-sru.github.io/Coffe-Ecomers/,https://your-custom-domain.com
 ```
 
+## Docker
+
+Build locally:
+
+```bash
+cd backend
+docker build -t coffe-ecomers-backend .
+```
+
+Run locally:
+
+```bash
+docker run --rm -p 5000:5000 --env-file .env coffe-ecomers-backend
+```
+
+GitHub Actions publishes image to GHCR:
+
+`ghcr.io/tejesh-sru/coffe-ecomers-backend:latest`
+
 ## Auth & Profile APIs
 - `POST /api/auth/register`
   - Body: `{ "username": "john", "email": "john@example.com", "password": "secret" }`

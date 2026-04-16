@@ -1,10 +1,30 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
   const { getCartCount, isAuthenticated, logout, user } = useCart();
+
+  const navigateToSection = (sectionId) => {
+    const scrollToSection = () => {
+      const section = document.getElementById(sectionId);
+      if (section) {
+        section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    };
+
+    if (location.pathname !== '/') {
+      navigate('/');
+      setTimeout(scrollToSection, 100);
+    } else {
+      scrollToSection();
+    }
+
+    setIsMenuOpen(false);
+  };
 
   return (
     <header className="bg-secondary text-white shadow-lg sticky top-0 z-50">
@@ -17,10 +37,10 @@ const Header = () => {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex space-x-8">
-            <a href="/#hero" className="hover:text-accent transition-colors font-medium">Home</a>
-            <a href="/#about" className="hover:text-accent transition-colors font-medium">About</a>
-            <a href="/#products" className="hover:text-accent transition-colors font-medium">Products</a>
-            <a href="/#contact" className="hover:text-accent transition-colors font-medium">Contact</a>
+            <button type="button" onClick={() => navigateToSection('hero')} className="hover:text-accent transition-colors font-medium">Home</button>
+            <button type="button" onClick={() => navigateToSection('about')} className="hover:text-accent transition-colors font-medium">About</button>
+            <button type="button" onClick={() => navigateToSection('products')} className="hover:text-accent transition-colors font-medium">Products</button>
+            <button type="button" onClick={() => navigateToSection('contact')} className="hover:text-accent transition-colors font-medium">Contact</button>
             {isAuthenticated ? (
               <>
                 <Link to="/profile" className="hover:text-accent transition-colors font-medium">{user?.username || 'Profile'}</Link>
@@ -59,10 +79,10 @@ const Header = () => {
         {/* Mobile Navigation */}
         {isMenuOpen && (
           <nav className="md:hidden pb-4 space-y-2">
-            <a href="/#hero" className="block py-2 hover:text-accent transition-colors" onClick={() => setIsMenuOpen(false)}>Home</a>
-            <a href="/#about" className="block py-2 hover:text-accent transition-colors" onClick={() => setIsMenuOpen(false)}>About</a>
-            <a href="/#products" className="block py-2 hover:text-accent transition-colors" onClick={() => setIsMenuOpen(false)}>Products</a>
-            <a href="/#contact" className="block py-2 hover:text-accent transition-colors" onClick={() => setIsMenuOpen(false)}>Contact</a>
+            <button type="button" onClick={() => navigateToSection('hero')} className="block py-2 hover:text-accent transition-colors">Home</button>
+            <button type="button" onClick={() => navigateToSection('about')} className="block py-2 hover:text-accent transition-colors">About</button>
+            <button type="button" onClick={() => navigateToSection('products')} className="block py-2 hover:text-accent transition-colors">Products</button>
+            <button type="button" onClick={() => navigateToSection('contact')} className="block py-2 hover:text-accent transition-colors">Contact</button>
             {isAuthenticated ? (
               <>
                 <Link to="/profile" className="block py-2 hover:text-accent transition-colors" onClick={() => setIsMenuOpen(false)}>{user?.username || 'Profile'}</Link>

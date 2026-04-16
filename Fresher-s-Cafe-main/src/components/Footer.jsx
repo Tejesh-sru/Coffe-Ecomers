@@ -1,4 +1,25 @@
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+
 const Footer = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const navigateToSection = (sectionId) => {
+    const scrollToSection = () => {
+      const section = document.getElementById(sectionId);
+      if (section) {
+        section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    };
+
+    if (location.pathname !== '/') {
+      navigate('/');
+      setTimeout(scrollToSection, 100);
+    } else {
+      scrollToSection();
+    }
+  };
+
   return (
     <footer className="bg-secondary text-white py-12 mt-auto">
       <div className="container mx-auto px-4">
@@ -16,10 +37,10 @@ const Footer = () => {
           <div>
             <h3 className="text-xl font-bold mb-4 text-accent">Quick Links</h3>
             <ul className="space-y-2">
-              <li><a href="/#about" className="text-gray-400 hover:text-accent transition-colors">About Us</a></li>
-              <li><a href="/#products" className="text-gray-400 hover:text-accent transition-colors">Products</a></li>
-              <li><a href="/#contact" className="text-gray-400 hover:text-accent transition-colors">Contact</a></li>
-              <li><a href="/login" className="text-gray-400 hover:text-accent transition-colors">Sign Up</a></li>
+              <li><button type="button" onClick={() => navigateToSection('about')} className="text-gray-400 hover:text-accent transition-colors">About Us</button></li>
+              <li><button type="button" onClick={() => navigateToSection('products')} className="text-gray-400 hover:text-accent transition-colors">Products</button></li>
+              <li><button type="button" onClick={() => navigateToSection('contact')} className="text-gray-400 hover:text-accent transition-colors">Contact</button></li>
+              <li><Link to="/login" className="text-gray-400 hover:text-accent transition-colors">Sign Up</Link></li>
             </ul>
           </div>
 

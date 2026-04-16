@@ -66,3 +66,9 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+      - name: Print frontend link
+        run: |
+          echo "Frontend URL: ${{ steps.deployment.outputs.page_url }}"
+          echo "## Frontend Deployment" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Frontend URL: ${{ steps.deployment.outputs.page_url }}" >> "$GITHUB_STEP_SUMMARY"

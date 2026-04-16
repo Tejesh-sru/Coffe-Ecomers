@@ -1,0 +1,88 @@
+/* General Body Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5; /* Light background for contrast */
+    background-image: url(../images/beans.jpg); /* Update the path as needed */
+    background-size: cover; /* Ensures the background image covers the entire body */
+    background-position: center; /* Centers the image */
+    background-repeat: no-repeat; /* Prevents the image from repeating */
+    margin: 0;
+    padding: 20px;
+    color: #333; /* Dark text color for readability */
+}
+
+/* Header Styles */
+header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+
+h1 {
+    font-size: 4em;
+    color: #bf9a17; /* Dark color for the header */
+}
+
+/* Cart Container Styles */
+.cart-container {
+    max-width: 800px; /* Limit the width for better layout */
+    margin: 0 auto; /* Center the container */
+    background-color: #fff; /* White background for the cart */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    padding: 20px;
+}
+
+/* Cart Table Styles */
+.cart-table {
+    width: 100%; /* Full width of the container */
+    border-collapse: collapse; /* Collapse borders for cleaner look */
+}
+
+.cart-table th, .cart-table td {
+    padding: 15px;
+    text-align: left; /* Align text to the left */
+    border-bottom: 1px solid #ddd; /* Light gray border for rows */
+}
+
+.cart-table th {
+    background-color: #f5c242; /* Header background color */
+    color: #1a1a1a; /* Dark text color */
+}
+
+.cart-table td {
+    background-color: #f9f9f9; /* Light background for table rows */
+}
+
+.cart-table tr:hover {
+    background-color: #f1f1f1; /* Highlight row on hover */
+}
+
+/* Cart Total Section Styles */
+.cart-total {
+    display: flex; /* Flexbox for layout */
+    justify-content: space-between; /* Space between elements */
+    align-items: center; /* Center align items vertically */
+    margin-top: 20px; /* Space above total */
+}
+
+.cart-total h3 {
+    font-size: 1.5em; /* Slightly larger font for total */
+    color: #1a1a1a; /* Dark color for total */
+}
+
+/* Checkout Button Styles */
+#checkout-btn {
+    background-color: #f5c242; /* Button color */
+    color: #1a1a1a; /* Text color */
+    padding: 10px 20px; /* Button padding */
+    border: none; /* Remove default border */
+    border-radius: 5px; /* Rounded corners */
+    font-size: 1.2em; /* Larger font */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s; /* Smooth transition */
+}
+
+#checkout-btn:hover {
+    background-color: #d4a731; /* Darker color on hover */
+}

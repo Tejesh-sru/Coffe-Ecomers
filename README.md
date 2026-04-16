@@ -29,6 +29,8 @@ Workflows added:
 	- Checks backend Node syntax
 - `.github/workflows/deploy-frontend-pages.yml`
 	- Deploys frontend to GitHub Pages
+- `.github/workflows/deploy-backend-fly.yml`
+	- Deploys backend publicly to Fly.io
 - `.github/workflows/publish-backend-ghcr.yml`
 	- Builds and publishes backend Docker image to GitHub Container Registry (GHCR)
 
@@ -38,6 +40,10 @@ Add these in: `Repo Settings -> Secrets and variables -> Actions`
 
 - `PROD_API_BASE_URL`
 	- Example: `https://your-backend-domain.com/api`
+- `FLY_API_TOKEN`
+	- Fly.io access token
+- `FLY_APP_NAME`
+	- Fly app name (for example: `coffe-ecomers-api`)
 
 No extra secret is required for GHCR publishing. GitHub Actions uses `GITHUB_TOKEN` automatically.
 
@@ -53,4 +59,6 @@ After frontend deployment succeeds, your app link will be:
 - Backend allowed CORS origins are now environment-based (`FRONTEND_URLS`)
 - Backend image is published to GHCR as:
 	- `ghcr.io/tejesh-sru/coffe-ecomers-backend:latest`
-- GitHub does not host long-running Node APIs directly. Use the GHCR image on any container host (VPS, Azure, Railway, etc.) and set that URL in `PROD_API_BASE_URL`.
+- Public backend deployment URL format via Fly.io:
+	- `https://<FLY_APP_NAME>.fly.dev`
+	- API base URL to use in `PROD_API_BASE_URL`: `https://<FLY_APP_NAME>.fly.dev/api`

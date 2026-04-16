@@ -61,6 +61,23 @@ GitHub Actions publishes image to GHCR:
 
 `ghcr.io/tejesh-sru/coffe-ecomers-backend:latest`
 
+## Public Backend Deployment (GitHub Actions + Fly.io)
+
+Workflow: `.github/workflows/deploy-backend-fly.yml`
+
+Required repository secrets:
+
+- `FLY_API_TOKEN`
+- `FLY_APP_NAME`
+
+After deployment, public backend URL:
+
+`https://<FLY_APP_NAME>.fly.dev`
+
+API base URL:
+
+`https://<FLY_APP_NAME>.fly.dev/api`
+
 ## Auth & Profile APIs
 - `POST /api/auth/register`
   - Body: `{ "username": "john", "email": "john@example.com", "password": "secret" }`

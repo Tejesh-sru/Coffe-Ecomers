@@ -1,0 +1,61 @@
+name: Deploy Backend (Fly.io)
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "backend/**"
+      - ".github/workflows/deploy-backend-fly.yml"
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check required secrets
+        id: check_secrets
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+          FLY_APP_NAME: ${{ secrets.FLY_APP_NAME }}
+        run: |
+          if [ -z "$FLY_API_TOKEN" ] || [ -z "$FLY_APP_NAME" ]; then
+            echo "has_secrets=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::FLY_API_TOKEN or FLY_APP_NAME is missing. Skipping Fly.io backend deployment."
+          else
+            echo "has_secrets=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Setup Flyctl
+        if: steps.check_secrets.outputs.has_secrets == 'true'
+        uses: superfly/flyctl-actions/setup-flyctl@master
+
+      - name: Create Fly app if missing
+        if: steps.check_secrets.outputs.has_secrets == 'true'
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+          FLY_APP_NAME: ${{ secrets.FLY_APP_NAME }}
+        run: |
+          flyctl apps create "$FLY_APP_NAME" || true
+
+      - name: Deploy backend
+        if: steps.check_secrets.outputs.has_secrets == 'true'
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+          FLY_APP_NAME: ${{ secrets.FLY_APP_NAME }}
+        run: |
+          flyctl deploy \
+            --app "$FLY_APP_NAME" \
+            --config backend/fly.toml \
+            --dockerfile backend/Dockerfile \
+            --remote-only \
+            --path backend
+
+      - name: Deployment URL
+        if: steps.check_secrets.outputs.has_secrets == 'true'
+        env:
+          FLY_APP_NAME: ${{ secrets.FLY_APP_NAME }}
+        run: |
+          echo "Backend URL: https://${FLY_APP_NAME}.fly.dev"

@@ -26,7 +26,7 @@ npm run dev
 Workflows added:
 - `.github/workflows/ci.yml`
 	- Builds frontend
-	- Checks backend Node syntax
+	- Builds backend (Node validation + Docker image build)
 - `.github/workflows/deploy-frontend-pages.yml`
 	- Deploys frontend to GitHub Pages
 - `.github/workflows/deploy-backend-fly.yml`
@@ -47,11 +47,11 @@ Add these in: `Repo Settings -> Secrets and variables -> Actions`
 
 No extra secret is required for GHCR publishing. GitHub Actions uses `GITHUB_TOKEN` automatically.
 
-## Application Link
+## Application Links
 
-After frontend deployment succeeds, your app link will be:
-
-`https://tejesh-sru.github.io/Coffe-Ecomers/`
+- Frontend: `https://tejesh-sru.github.io/Coffe-Ecomers/`
+- Backend: `https://<FLY_APP_NAME>.fly.dev`
+- Backend Health: `https://<FLY_APP_NAME>.fly.dev/api/health`
 
 ## Notes
 

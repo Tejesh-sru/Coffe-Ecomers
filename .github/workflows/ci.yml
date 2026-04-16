@@ -30,8 +30,8 @@ jobs:
       - name: Build frontend
         run: npm run build
 
-  backend-syntax:
-    name: Backend Syntax Check
+  backend-build:
+    name: Backend Build
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -64,3 +64,6 @@ jobs:
           node --check src/routes/healthRoutes.js
           node --check src/routes/authRoutes.js
           node --check src/routes/cartRoutes.js
+
+      - name: Build backend Docker image
+        run: docker build -f Dockerfile .

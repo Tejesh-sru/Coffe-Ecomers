@@ -13,6 +13,9 @@ permissions:
 
 jobs:
   deploy:
+    environment:
+      name: backend
+      url: ${{ steps.backend_url.outputs.url }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -57,8 +60,10 @@ jobs:
             --path backend
 
       - name: Deployment URL
+        id: backend_url
         if: steps.check_secrets.outputs.has_secrets == 'true'
         env:
           FLY_APP_NAME: ${{ secrets.FLY_APP_NAME }}
         run: |
+          echo "url=https://${FLY_APP_NAME}.fly.dev" >> "$GITHUB_OUTPUT"
           echo "Backend URL: https://${FLY_APP_NAME}.fly.dev"

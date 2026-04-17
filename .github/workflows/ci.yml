@@ -1,52 +1,41 @@
-name: Frontend and Backend Build Workflow
+name: Full Project CI
 
 on:
   push:
     branches: [main]
+    paths:
+      - "backend/**"
+      - "Fresher-s-Cafe-main/**"
+      - ".github/workflows/ci.yml"
+      - "render.yaml"
   pull_request:
     branches: [main]
+  workflow_dispatch:
 
 jobs:
-  frontend-build:
-    name: Frontend Build
+  build:
+    name: Build Frontend and Backend
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: Fresher-s-Cafe-main
     steps:
-      - name: Checkout
+      - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Show repository structure
+        run: |
+          echo "Repository root:"
+          ls -la
+
+      - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: npm
-          cache-dependency-path: Fresher-s-Cafe-main/package-lock.json
+          cache-dependency-path: |
+            backend/package-lock.json
+            Fresher-s-Cafe-main/package-lock.json
 
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build frontend
-        run: npm run build
-
-  backend-build:
-    name: Backend Build
-    runs-on: ubuntu-latest
-    defaults:
-      run:
+      - name: Install Backend Dependencies
         working-directory: backend
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: npm
-
-      - name: Install dependencies
         run: |
           if [ -f package-lock.json ]; then
             npm ci
@@ -54,7 +43,8 @@ jobs:
             npm install
           fi
 
-      - name: Validate Node syntax
+      - name: Run Backend Tests
+        working-directory: backend
         run: |
           node --check src/server.js
           node --check src/config/db.js
@@ -65,5 +55,30 @@ jobs:
           node --check src/routes/authRoutes.js
           node --check src/routes/cartRoutes.js
 
+      - name: Install Frontend Dependencies
+        working-directory: Fresher-s-Cafe-main
+        run: |
+          if [ -f package-lock.json ]; then
+            npm ci
+          else
+            npm install
+          fi
+
+      - name: Build React App
+        working-directory: Fresher-s-Cafe-main
+        env:
+          VITE_API_BASE_URL: ${{ secrets.PROD_API_BASE_URL }}
+          VITE_OFFLINE_MODE: "true"
+          VITE_BASE_PATH: /Coffe-Ecomers/
+        run: npm run build
+
       - name: Build backend Docker image
+        working-directory: backend
         run: docker build -f Dockerfile .
+
+      - name: Print Website Link
+        run: |
+          FRONTEND_URL="https://tejesh-sru.github.io/Coffe-Ecomers/"
+          echo "::notice title=Live Website::$FRONTEND_URL"
+          echo "## Live Links" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Website Link: [$FRONTEND_URL]($FRONTEND_URL)" >> "$GITHUB_STEP_SUMMARY"

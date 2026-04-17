@@ -29,6 +29,18 @@ app.use(
 );
 app.use(express.json());
 
+app.get('/', (_req, res) => {
+  res.json({
+    message: 'Fresher Cafe backend is running',
+    health: '/api/health',
+    apiBase: '/api',
+  });
+});
+
+app.get('/health', (_req, res) => {
+  res.json({ status: 'ok' });
+});
+
 app.use('/api', healthRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/cart', cartRoutes);

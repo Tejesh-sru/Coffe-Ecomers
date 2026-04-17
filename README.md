@@ -31,6 +31,8 @@ Workflows added:
 	- Deploys frontend to GitHub Pages
 - `.github/workflows/deploy-backend-fly.yml`
 	- Deploys backend publicly to Fly.io
+- `.github/workflows/deploy-backend-render.yml`
+	- Triggers backend deployment on Render using a deploy hook
 - `.github/workflows/publish-backend-ghcr.yml`
 	- Builds and publishes backend Docker image to GitHub Container Registry (GHCR)
 
@@ -44,6 +46,8 @@ Add these in: `Repo Settings -> Secrets and variables -> Actions`
 	- Fly.io access token
 - `FLY_APP_NAME`
 	- Fly app name (for example: `coffe-ecomers-api`)
+- `RENDER_DEPLOY_HOOK_URL`
+	- Render deploy hook URL (optional; only needed for the Render workflow)
 
 No extra secret is required for GHCR publishing. GitHub Actions uses `GITHUB_TOKEN` automatically.
 
@@ -52,6 +56,8 @@ No extra secret is required for GHCR publishing. GitHub Actions uses `GITHUB_TOK
 - Frontend: `https://tejesh-sru.github.io/Coffe-Ecomers/`
 - Backend: `https://<FLY_APP_NAME>.fly.dev`
 - Backend Health: `https://<FLY_APP_NAME>.fly.dev/api/health`
+- Render Backend: `https://<your-render-service>.onrender.com`
+- Render Health: `https://<your-render-service>.onrender.com/api/health`
 
 ## Notes
 
@@ -62,3 +68,6 @@ No extra secret is required for GHCR publishing. GitHub Actions uses `GITHUB_TOK
 - Public backend deployment URL format via Fly.io:
 	- `https://<FLY_APP_NAME>.fly.dev`
 	- API base URL to use in `PROD_API_BASE_URL`: `https://<FLY_APP_NAME>.fly.dev/api`
+- Public backend deployment URL format via Render:
+	- `https://<your-render-service>.onrender.com`
+	- API base URL to use in `PROD_API_BASE_URL`: `https://<your-render-service>.onrender.com/api`

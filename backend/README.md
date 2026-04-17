@@ -78,6 +78,35 @@ API base URL:
 
 `https://<FLY_APP_NAME>.fly.dev/api`
 
+## Public Backend Deployment (Render)
+
+This repo now includes a Render Blueprint config at `render.yaml`.
+
+### Option 1: Deploy directly from Render dashboard (recommended)
+
+1. In Render, create a new Blueprint and connect this repository.
+2. Render will detect `render.yaml` and create the backend web service.
+3. Set these environment variables in Render:
+  - `MONGODB_URI`
+  - `FRONTEND_URLS` (comma-separated frontend URLs)
+4. Deploy.
+
+### Option 2: Trigger Render deploy from GitHub Actions
+
+Workflow: `.github/workflows/deploy-backend-render.yml`
+
+Required repository secret:
+
+- `RENDER_DEPLOY_HOOK_URL` (from Render service Settings -> Deploy Hook)
+
+After deployment, Render backend URL format:
+
+`https://<your-render-service>.onrender.com`
+
+Render API base URL:
+
+`https://<your-render-service>.onrender.com/api`
+
 ## Auth & Profile APIs
 - `POST /api/auth/register`
   - Body: `{ "username": "john", "email": "john@example.com", "password": "secret" }`

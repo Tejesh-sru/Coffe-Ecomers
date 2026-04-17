@@ -1,0 +1,46 @@
+name: Backend Deploy Render
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "backend/**"
+      - "render.yaml"
+      - ".github/workflows/deploy-backend-render.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check required secret
+        id: check_secret
+        env:
+          RENDER_DEPLOY_HOOK_URL: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
+        run: |
+          if [ -z "$RENDER_DEPLOY_HOOK_URL" ]; then
+            echo "has_secret=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::RENDER_DEPLOY_HOOK_URL is missing. Skipping Render deployment trigger."
+          else
+            echo "has_secret=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Trigger Render deploy
+        if: steps.check_secret.outputs.has_secret == 'true'
+        env:
+          RENDER_DEPLOY_HOOK_URL: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
+        run: |
+          curl --fail --show-error --silent --request POST "$RENDER_DEPLOY_HOOK_URL"
+
+      - name: Deployment summary
+        run: |
+          echo "## Render Backend Deployment" >> "$GITHUB_STEP_SUMMARY"
+          if [ "${{ steps.check_secret.outputs.has_secret }}" = "true" ]; then
+            echo "- Render deploy trigger: sent" >> "$GITHUB_STEP_SUMMARY"
+            echo "- Verify deployment status in your Render dashboard" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "- Render deploy trigger: skipped (set RENDER_DEPLOY_HOOK_URL secret)" >> "$GITHUB_STEP_SUMMARY"
+          fi
